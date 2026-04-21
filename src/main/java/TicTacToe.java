@@ -18,7 +18,7 @@ public class TicTacToe {
         tossAndAssignSymbols();
         displayTossResult();
 
-        playSingleMove(); // UC3 + UC4 + placement
+        playSingleMove();
     }
 
     // ================= GAME FLOW =================
@@ -26,10 +26,20 @@ public class TicTacToe {
     static void playSingleMove() {
         printBoard();
 
-        int slot = getUserSlot();
+        int row, col;
 
-        int row = getRowFromSlot(slot);
-        int col = getColFromSlot(slot);
+        while (true) {
+            int slot = getUserSlot();
+
+            row = getRowFromSlot(slot);
+            col = getColFromSlot(slot);
+
+            if (isValidMove(row, col)) {
+                break;
+            } else {
+                System.out.println("Invalid move! Try again.");
+            }
+        }
 
         board[row][col] = humanSymbol;
 
@@ -103,5 +113,22 @@ public class TicTacToe {
 
     static int getColFromSlot(int slot) {
         return (slot - 1) % 3;
+    }
+
+    // ================= UC5 =================
+
+    static boolean isValidMove(int row, int col) {
+
+        // Check bounds
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
+            return false;
+        }
+
+        // Check if cell is empty
+        if (board[row][col] != '-') {
+            return false;
+        }
+
+        return true;
     }
 }
