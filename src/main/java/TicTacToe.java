@@ -9,27 +9,40 @@ public class TicTacToe {
     static char humanSymbol;
     static char computerSymbol;
 
+    static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
 
-        // UC1
         initializeBoard();
-        printBoard();
 
-        // UC2
         tossAndAssignSymbols();
         displayTossResult();
 
-        // UC3
-        int slot = getUserSlot();
-        System.out.println("Slot entered: " + slot);
+        playSingleMove(); // UC3 + UC4 + placement
     }
 
+    // ================= GAME FLOW =================
 
+    static void playSingleMove() {
+        printBoard();
+
+        int slot = getUserSlot();
+
+        int row = getRowFromSlot(slot);
+        int col = getColFromSlot(slot);
+
+        board[row][col] = humanSymbol;
+
+        System.out.println("\nBoard after your move:");
+        printBoard();
+    }
+
+    // ================= UC1 =================
 
     static void initializeBoard() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                board[row][col] = '-';
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = '-';
             }
         }
     }
@@ -37,19 +50,17 @@ public class TicTacToe {
     static void printBoard() {
         System.out.println("-------------");
 
-        for (int row = 0; row < 3; row++) {
+        for (int i = 0; i < 3; i++) {
             System.out.print("| ");
-
-            for (int col = 0; col < 3; col++) {
-                System.out.print(board[row][col] + " | ");
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j] + " | ");
             }
-
             System.out.println();
             System.out.println("-------------");
         }
     }
 
-
+    // ================= UC2 =================
 
     static void tossAndAssignSymbols() {
         Random random = new Random();
@@ -68,25 +79,29 @@ public class TicTacToe {
 
     static void displayTossResult() {
         if (isHumanTurn) {
-            System.out.println("You won the toss!");
-            System.out.println("You play first.");
+            System.out.println("You won the toss! You play first.");
         } else {
-            System.out.println("Computer won the toss!");
-            System.out.println("Computer plays first.");
+            System.out.println("Computer won the toss! Computer plays first.");
         }
 
         System.out.println("Your symbol: " + humanSymbol);
         System.out.println("Computer symbol: " + computerSymbol);
     }
 
-
+    // ================= UC3 =================
 
     static int getUserSlot() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter a slot (1-9): ");
-        int slot = scanner.nextInt();
+        return scanner.nextInt();
+    }
 
-        return slot;
+    // ================= UC4 =================
+
+    static int getRowFromSlot(int slot) {
+        return (slot - 1) / 3;
+    }
+
+    static int getColFromSlot(int slot) {
+        return (slot - 1) % 3;
     }
 }
