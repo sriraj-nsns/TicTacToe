@@ -1,21 +1,58 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class TicTacToe {
+
+    static char[][] board = new char[3][3];
 
     static boolean isHumanTurn;
     static char humanSymbol;
     static char computerSymbol;
 
     public static void main(String[] args) {
+
+        // UC1
+        initializeBoard();
+        printBoard();
+
+        // UC2
         tossAndAssignSymbols();
         displayTossResult();
+
+        // UC3
+        int slot = getUserSlot();
+        System.out.println("Slot entered: " + slot);
     }
 
-    // Toss logic
+
+
+    static void initializeBoard() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                board[row][col] = '-';
+            }
+        }
+    }
+
+    static void printBoard() {
+        System.out.println("-------------");
+
+        for (int row = 0; row < 3; row++) {
+            System.out.print("| ");
+
+            for (int col = 0; col < 3; col++) {
+                System.out.print(board[row][col] + " | ");
+            }
+
+            System.out.println();
+            System.out.println("-------------");
+        }
+    }
+
+
+
     static void tossAndAssignSymbols() {
         Random random = new Random();
-
-        // 0 or 1
         int toss = random.nextInt(2);
 
         if (toss == 0) {
@@ -29,7 +66,6 @@ public class TicTacToe {
         }
     }
 
-    // Display result
     static void displayTossResult() {
         if (isHumanTurn) {
             System.out.println("You won the toss!");
@@ -41,5 +77,16 @@ public class TicTacToe {
 
         System.out.println("Your symbol: " + humanSymbol);
         System.out.println("Computer symbol: " + computerSymbol);
+    }
+
+
+
+    static int getUserSlot() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a slot (1-9): ");
+        int slot = scanner.nextInt();
+
+        return slot;
     }
 }
